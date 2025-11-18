@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FTC Football Channel</title>
+  <style>
+    :root{
+      --gold-1: #ffd700;
+      --gold-2: #ffea7f;
+      --glass-bg: rgba(0,0,0,0.55);
+    }
+    * { box-sizing: border-box; margin:0; padding:0; font-family:'Poppins', sans-serif; }
+    html,body{ height:100%; }
+    body {
+      background: #000;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      padding:40px 20px 120px; /* bottom padding to avoid footer overlap */
+      overflow:hidden;
+    }
+
+    /* Animated glossy gold backdrop */
+    body::before,
+    body::after{
+      content:"";
+      position:fixed;
+      left:-50%; top:-50%;
+      width:200%; height:200%;
+      background: conic-gradient(var(--gold-1), #d4af37, var(--gold-2), var(--gold-1));
+      filter: blur(80px) saturate(1.2);
+      opacity:0.10;
+      z-index:0;
+      animation: spin 18s linear infinite;
+    }
+    body::after{ animation-direction:reverse; opacity:0.06; }
+    @keyframes spin{ from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+    .container{
+      position:relative;
+      z-index:2;
+      width:100%;
+      max-width:880px;
+      background: var(--glass-bg);
+      border-radius:22px;
+      padding:36px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7), inset 0 0 30px rgba(255,215,0,0.04);
+      border: 1px solid rgba(255,215,0,0.12);
+      backdrop-filter: blur(12px) saturate(1.1);
+      display:flex;
+      gap:24px;
+      align-items:center;
+      overflow:visible;
+    }
+
+    .logo{ width:150px; height:150px; border-radius:50%; border:3px solid rgba(255,215,0,0.45); box-shadow: 0 0 28px rgba(255,215,0,0.18); flex-shrink:0; }
+
+    .hero{
+      flex:1;
+      color:#eee;
+    }
+    .hero h1{ color:var(--gold-2); font-size:2.6rem; margin-bottom:6px; text-shadow:0 0 22px rgba(255,215,0,0.12); }
+    .hero p{ color:#dcdcdc; font-size:1.05rem; margin-bottom:14px; }
+
+    .info{
+      margin-top:6px;
+      color:#d9d9d9;
+    }
+    .info h2{ color:var(--gold-1); margin-bottom:8px; font-size:1.2rem; text-shadow:0 0 14px rgba(255,215,0,0.08); }
+    .info ul{ padding-left:18px; }
+    .info li{ margin-bottom:8px; font-size:1rem; color:#ddd; }
+
+    .cta{
+      margin-top:14px;
+    }
+    .btn{ display:inline-block; padding:14px 34px; border-radius:12px; font-weight:700; text-decoration:none; font-size:1.1rem;
+      background: linear-gradient(135deg, rgba(255,215,0,0.95), rgba(255,238,140,0.95)); color:#1a1200; box-shadow: 0 10px 30px rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.25);
+    }
+    .btn:hover{ transform:translateY(-3px); box-shadow:0 18px 50px rgba(255,215,0,0.18); }
+
+    /* overlays */
+    #particles, #neon-stripes, #parallax-layer, #football-lines { position:fixed; inset:0; pointer-events:none; }
+    #particles{ z-index:1; }
+    #neon-stripes{ z-index:1; mix-blend-mode:overlay; }
+    #parallax-layer{ z-index:1; }
+    #football-lines{ z-index:1; }
+
+    /* Fixed single footer at bottom - separate and always below content */
+    .site-footer{
+      position:fixed; left:0; right:0; bottom:0; z-index:10;
+      height:64px; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.8));
+      border-top: 1px solid rgba(255,215,0,0.08);
+      backdrop-filter: blur(6px);
+      padding:0 16px;
+    }
+    .site-footer p{ color:rgba(255,215,0,0.92); font-size:0.82rem; opacity:0.95; }
+
+    /* small-screen tweaks */
+    @media (max-width:720px){
+      .container{ flex-direction:column; padding:22px; }
+      .logo{ width:120px; height:120px; }
+      .hero h1{ font-size:2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img class="logo" src="https://i.postimg.cc/KvJRvV5W/IMG-20251113-154716-299.jpg" alt="FTC Logo" />
+
+    <div class="hero">
+      <h1>FTC FOOTBALL CHANNEL</h1>
+      <p>Daily football insights — fast updates, smart match breakdowns & crisp analysis. Serious vibe, premium delivery.</p>
+
+      <div class="info">
+        <h2>About FTC</h2>
+        <ul>
+          <li>Daily fast football updates</li>
+          <li>Smart match breakdowns</li>
+          <li>Crisp analysis & clean insights</li>
+          <li>Only football info — no unnecessary bakwaas</li>
+          <li>Perfect for hardcore football lovers</li>
+        </ul>
+      </div>
+
+      <div class="cta">
+        <a class="btn" href="https://t.me/+AtonTujSIsw3ZGRh" target="_blank">JOIN NOW ⚡</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Decorative overlays and small effects -->
+  <canvas id="particles"></canvas>
+  <div id="neon-stripes" style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0 10px, rgba(255,255,255,0.01) 10px 20px); opacity:0.08;"></div>
+  <div id="parallax-layer"></div>
+  <svg id="football-lines" width="100%" height="100%" style="position:fixed; left:0; top:0; pointer-events:none;"></svg>
+
+  <!-- Fixed single footer placed below all content (separate) -->
+  <div class="site-footer" role="contentinfo">
+    <p>⚠️ FTC kisi bhi tarah ki gambling/betting ko promote nahi karta. Saari info sirf educational & football updates ke liye hai. Decision aapki responsibility.</p>
+  </div>
+
+  <script>
+    (function(){
+      try{
+        // Canvas particles
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext && canvas.getContext('2d');
+        function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+        const particles = [];
+        const PARTICLE_COUNT = Math.min(120, Math.floor(window.innerWidth / 12));
+        for(let i=0;i<PARTICLE_COUNT;i++){
+          particles.push({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r: Math.random()*2.2+0.6, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6, a:0.06+Math.random()*0.14 });
+        }
+
+        function draw(){
+          if(!ctx) return;
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          for(const p of particles){
+            p.x += p.vx; p.y += p.vy; p.a += Math.sin(Date.now()/1000 + p.r) * 0.002;
+            if(p.x < -20) p.x = canvas.width + 20;
+            if(p.x > canvas.width + 20) p.x = -20;
+            if(p.y < -20) p.y = canvas.height + 20;
+            if(p.y > canvas.height + 20) p.y = -20;
+            ctx.beginPath();
+            ctx.globalAlpha = Math.max(0.06, Math.min(0.9, 0.65 * (0.7 + p.a)));
+            ctx.fillStyle = 'rgba(255,215,0,0.06)';
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fill();
+          }
+          requestAnimationFrame(draw);
+        }
+        draw();
+
+        // Subtle SVG glow path
+        (function(){
+          const svg = document.getElementById('football-lines');
+          const ns = 'http://www.w3.org/2000/svg';
+          const path = document.createElementNS(ns,'path');
+          path.setAttribute('d','M -200 260 C 120 40 560 40 1100 260');
+          path.setAttribute('stroke','rgba(255,215,0,0.06)');
+          path.setAttribute('stroke-width','6');
+          path.setAttribute('fill','none');
+          path.setAttribute('stroke-linecap','round');
+          svg.appendChild(path);
+          let t=0;
+          setInterval(()=>{ t+=0.0025; const amp=18; path.setAttribute('transform','translate(0,'+Math.sin(t*2*Math.PI)*amp+')'); },16);
+        })();
+
+        // Parallax radial layer
+        const parallax = document.getElementById('parallax-layer');
+        function updateParallax(e){ const x=(e.clientX/window.innerWidth-0.5)*40; const y=(e.clientY/window.innerHeight-0.5)*40; parallax.style.background = `radial-gradient(circle at ${50+x}% ${50+y}%, rgba(255,215,0,0.04), transparent 30%)`; }
+        window.addEventListener('mousemove', updateParallax);
+
+        // Neon stripes subtle animation
+        const stripes = document.getElementById('neon-stripes'); let phase=0; function animStripes(){ phase+=0.0025; stripes.style.opacity = 0.06 + Math.sin(phase)*0.02; requestAnimationFrame(animStripes); } animStripes();
+
+        // ensure layers proper stacking
+        canvas.style.position='fixed'; canvas.style.left='0'; canvas.style.top='0'; canvas.style.zIndex='1'; canvas.style.pointerEvents='none';
+        document.querySelector('.container').style.zIndex=2;
+
+      }catch(err){ console.error('Landing page script error:',err); }
+    })();
+  </script>
+
+</body>
+</html>
