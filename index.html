@@ -1,214 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FTC Football Channel</title>
-  <style>
-    :root{
-      --gold-1: #ffd700;
-      --gold-2: #ffea7f;
-      --glass-bg: rgba(0,0,0,0.55);
-    }
-    * { box-sizing: border-box; margin:0; padding:0; font-family:'Poppins', sans-serif; }
-    html,body{ height:100%; }
-    body {
-      background: #000;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      padding:40px 20px 120px; /* bottom padding to avoid footer overlap */
-      overflow:hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FTC Football Channel - Premium Insights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    /* Animated glossy gold backdrop */
-    body::before,
-    body::after{
-      content:"";
-      position:fixed;
-      left:-50%; top:-50%;
-      width:200%; height:200%;
-      background: conic-gradient(var(--gold-1), #d4af37, var(--gold-2), var(--gold-1));
-      filter: blur(80px) saturate(1.2);
-      opacity:0.10;
-      z-index:0;
-      animation: spin 18s linear infinite;
-    }
-    body::after{ animation-direction:reverse; opacity:0.06; }
-    @keyframes spin{ from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, .btn-text, .timer-font {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
 
-    .container{
-      position:relative;
-      z-index:2;
-      width:100%;
-      max-width:880px;
-      background: var(--glass-bg);
-      border-radius:22px;
-      padding:36px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.7), inset 0 0 30px rgba(255,215,0,0.04);
-      border: 1px solid rgba(255,215,0,0.12);
-      backdrop-filter: blur(12px) saturate(1.1);
-      display:flex;
-      gap:24px;
-      align-items:center;
-      overflow:visible;
-    }
+        /* Dynamic Background with Overlay */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* High quality stadium background */
+            background-image: url('https://images.unsplash.com/photo-1504305754058-2f08ccd89a02?q=80&w=2070&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
 
-    .logo{ width:150px; height:150px; border-radius:50%; border:3px solid rgba(255,215,0,0.45); box-shadow: 0 0 28px rgba(255,215,0,0.18); flex-shrink:0; }
+        .hero-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: -1;
+        }
 
-    .hero{
-      flex:1;
-      color:#eee;
-    }
-    .hero h1{ color:var(--gold-2); font-size:2.6rem; margin-bottom:6px; text-shadow:0 0 22px rgba(255,215,0,0.12); }
-    .hero p{ color:#dcdcdc; font-size:1.05rem; margin-bottom:14px; }
+        /* Gold Gradient Text */
+        .text-gold-gradient {
+            background: linear-gradient(to right, #FFD700, #FDB931);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    .info{
-      margin-top:6px;
-      color:#d9d9d9;
-    }
-    .info h2{ color:var(--gold-1); margin-bottom:8px; font-size:1.2rem; text-shadow:0 0 14px rgba(255,215,0,0.08); }
-    .info ul{ padding-left:18px; }
-    .info li{ margin-bottom:8px; font-size:1rem; color:#ddd; }
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
 
-    .cta{
-      margin-top:14px;
-    }
-    .btn{ display:inline-block; padding:14px 34px; border-radius:12px; font-weight:700; text-decoration:none; font-size:1.1rem;
-      background: linear-gradient(135deg, rgba(255,215,0,0.95), rgba(255,238,140,0.95)); color:#1a1200; box-shadow: 0 10px 30px rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.25);
-    }
-    .btn:hover{ transform:translateY(-3px); box-shadow:0 18px 50px rgba(255,215,0,0.18); }
+        /* Pulsing Button Animation */
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
 
-    /* overlays */
-    #particles, #neon-stripes, #parallax-layer, #football-lines { position:fixed; inset:0; pointer-events:none; }
-    #particles{ z-index:1; }
-    #neon-stripes{ z-index:1; mix-blend-mode:overlay; }
-    #parallax-layer{ z-index:1; }
-    #football-lines{ z-index:1; }
+        .btn-pulse {
+            animation: pulse-gold 2s infinite;
+        }
 
-    /* Fixed single footer at bottom - separate and always below content */
-    .site-footer{
-      position:fixed; left:0; right:0; bottom:0; z-index:10;
-      height:64px; display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.8));
-      border-top: 1px solid rgba(255,215,0,0.08);
-      backdrop-filter: blur(6px);
-      padding:0 16px;
-    }
-    .site-footer p{ color:rgba(255,215,0,0.92); font-size:0.82rem; opacity:0.95; }
-
-    /* small-screen tweaks */
-    @media (max-width:720px){
-      .container{ flex-direction:column; padding:22px; }
-      .logo{ width:120px; height:120px; }
-      .hero h1{ font-size:2rem; }
-    }
-  </style>
+        /* Timer Styles */
+        .timer-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .timer-red {
+            color: #ff4d4d;
+            text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+        }
+    </style>
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
 
-  <div class="container">
-    <img class="logo" src="https://i.postimg.cc/KvJRvV5W/IMG-20251113-154716-299.jpg" alt="FTC Logo" />
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
 
-    <div class="hero">
-      <h1>FTC FOOTBALL CHANNEL</h1>
-      <p>Daily football insights — fast updates, smart match breakdowns & crisp analysis. Serious vibe, premium delivery.</p>
+    <main class="flex-grow flex items-center justify-center p-4">
+        
+        <div class="glass-card w-full max-w-md rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden">
+            
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-32 bg-yellow-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
 
-      <div class="info">
-        <h2>About FTC</h2>
-        <ul>
-          <li>Daily fast football updates</li>
-          <li>Smart match breakdowns</li>
-          <li>Crisp analysis & clean insights</li>
-          <li>Only football info — no unnecessary bakwaas</li>
-          <li>Perfect for hardcore football lovers</li>
-        </ul>
-      </div>
+            <div class="relative z-10 mb-6 flex justify-center">
+                <div class="w-28 h-28 rounded-full border-4 border-yellow-500/30 p-1 shadow-xl bg-black">
+                    <img src="https://i.postimg.cc/KvJRvV5W/IMG-20251113-154716-299.jpg" alt="FTC Logo" class="w-full h-full object-cover rounded-full">
+                </div>
+            </div>
 
-      <div class="cta">
-        <a class="btn" href="https://t.me/+AtonTujSIsw3ZGRh" target="_blank">JOIN NOW ⚡</a>
-      </div>
-    </div>
+            <h1 class="text-4xl font-bold mb-2 tracking-wide leading-none">
+                FTC <span class="text-gold-gradient">FOOTBALL</span>
+            </h1>
+            <p class="text-gray-300 text-sm mb-6 font-light tracking-wide">
+                PREMIUM INSIGHTS. ELITE ANALYSIS.
+            </p>
 
-  </div>
+            <div class="grid grid-cols-1 gap-3 mb-6 text-left">
+                <div class="flex items-center bg-white/5 p-3 rounded-xl border border-white/10">
+                    <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400 mr-3">
+                        <i class="fa-solid fa-bolt text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-semibold text-sm">Lightning Fast Updates</h3>
+                        <p class="text-gray-400 text-xs">Stay ahead of the game.</p>
+                    </div>
+                </div>
 
-  <!-- Decorative overlays and small effects -->
-  <canvas id="particles"></canvas>
-  <div id="neon-stripes" style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0 10px, rgba(255,255,255,0.01) 10px 20px); opacity:0.08;"></div>
-  <div id="parallax-layer"></div>
-  <svg id="football-lines" width="100%" height="100%" style="position:fixed; left:0; top:0; pointer-events:none;"></svg>
+                <div class="flex items-center bg-white/5 p-3 rounded-xl border border-white/10">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mr-3">
+                        <i class="fa-solid fa-chart-line text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-semibold text-sm">Tactical Breakdowns</h3>
+                        <p class="text-gray-400 text-xs">Smart analysis, deep stats.</p>
+                    </div>
+                </div>
 
-  <!-- Fixed single footer placed below all content (separate) -->
-  <div class="site-footer" role="contentinfo">
-    <p>⚠️ FTC kisi bhi tarah ki gambling/betting ko promote nahi karta. Saari info sirf educational & football updates ke liye hai. Decision aapki responsibility.</p>
-  </div>
+                <div class="flex items-center bg-white/5 p-3 rounded-xl border border-white/10">
+                    <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 mr-3">
+                        <i class="fa-solid fa-ban text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-semibold text-sm">Zero Noise</h3>
+                        <p class="text-gray-400 text-xs">Only football info. No Bakwaas.</p>
+                    </div>
+                </div>
+            </div>
 
-  <script>
-    (function(){
-      try{
-        // Canvas particles
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext && canvas.getContext('2d');
-        function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+            <div class="mb-5">
+                <p class="text-red-400 text-[11px] font-bold uppercase tracking-widest mb-2 animate-pulse">
+                    <i class="fa-regular fa-clock mr-1"></i> Free Entry Expiring Soon
+                </p>
+                <div class="flex justify-center items-center gap-2 timer-font">
+                    <div class="timer-box w-14 h-12 rounded-md flex items-center justify-center text-3xl font-bold text-white" id="minutes">04</div>
+                    <span class="text-2xl text-yellow-500 mb-1">:</span>
+                    <div class="timer-box w-14 h-12 rounded-md flex items-center justify-center text-3xl font-bold text-white" id="seconds">00</div>
+                </div>
+            </div>
 
-        const particles = [];
-        const PARTICLE_COUNT = Math.min(120, Math.floor(window.innerWidth / 12));
-        for(let i=0;i<PARTICLE_COUNT;i++){
-          particles.push({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r: Math.random()*2.2+0.6, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6, a:0.06+Math.random()*0.14 });
-        }
+            <a href="https://t.me/+AtonTujSIsw3ZGRh" target="_blank" class="group relative w-full block bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold py-4 rounded-xl shadow-lg hover:scale-[1.02] transition-transform duration-200 btn-pulse overflow-hidden">
+                <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                <div class="flex items-center justify-center gap-3">
+                    <i class="fa-brands fa-telegram text-2xl"></i>
+                    <span class="text-xl tracking-wider">JOIN CHANNEL FREE</span>
+                </div>
+            </a>
 
-        function draw(){
-          if(!ctx) return;
-          ctx.clearRect(0,0,canvas.width,canvas.height);
-          for(const p of particles){
-            p.x += p.vx; p.y += p.vy; p.a += Math.sin(Date.now()/1000 + p.r) * 0.002;
-            if(p.x < -20) p.x = canvas.width + 20;
-            if(p.x > canvas.width + 20) p.x = -20;
-            if(p.y < -20) p.y = canvas.height + 20;
-            if(p.y > canvas.height + 20) p.y = -20;
-            ctx.beginPath();
-            ctx.globalAlpha = Math.max(0.06, Math.min(0.9, 0.65 * (0.7 + p.a)));
-            ctx.fillStyle = 'rgba(255,215,0,0.06)';
-            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-            ctx.fill();
-          }
-          requestAnimationFrame(draw);
-        }
-        draw();
+            <div class="mt-6 pt-4 border-t border-white/10 text-center">
+                <p class="text-[10px] text-gray-500 leading-relaxed">
+                    <i class="fa-solid fa-circle-exclamation text-yellow-500 mr-1"></i>
+                    Disclaimer: FTC does not promote gambling or betting. All information is for educational purposes.
+                </p>
+            </div>
 
-        // Subtle SVG glow path
-        (function(){
-          const svg = document.getElementById('football-lines');
-          const ns = 'http://www.w3.org/2000/svg';
-          const path = document.createElementNS(ns,'path');
-          path.setAttribute('d','M -200 260 C 120 40 560 40 1100 260');
-          path.setAttribute('stroke','rgba(255,215,0,0.06)');
-          path.setAttribute('stroke-width','6');
-          path.setAttribute('fill','none');
-          path.setAttribute('stroke-linecap','round');
-          svg.appendChild(path);
-          let t=0;
-          setInterval(()=>{ t+=0.0025; const amp=18; path.setAttribute('transform','translate(0,'+Math.sin(t*2*Math.PI)*amp+')'); },16);
-        })();
+        </div>
+    </main>
 
-        // Parallax radial layer
-        const parallax = document.getElementById('parallax-layer');
-        function updateParallax(e){ const x=(e.clientX/window.innerWidth-0.5)*40; const y=(e.clientY/window.innerHeight-0.5)*40; parallax.style.background = `radial-gradient(circle at ${50+x}% ${50+y}%, rgba(255,215,0,0.04), transparent 30%)`; }
-        window.addEventListener('mousemove', updateParallax);
+    <script>
+        // Set the countdown time in minutes
+        let timeInMinutes = 4;
+        let timeInSeconds = timeInMinutes * 60;
 
-        // Neon stripes subtle animation
-        const stripes = document.getElementById('neon-stripes'); let phase=0; function animStripes(){ phase+=0.0025; stripes.style.opacity = 0.06 + Math.sin(phase)*0.02; requestAnimationFrame(animStripes); } animStripes();
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
 
-        // ensure layers proper stacking
-        canvas.style.position='fixed'; canvas.style.left='0'; canvas.style.top='0'; canvas.style.zIndex='1'; canvas.style.pointerEvents='none';
-        document.querySelector('.container').style.zIndex=2;
+        const timer = setInterval(() => {
+            const minutes = Math.floor(timeInSeconds / 60);
+            let seconds = timeInSeconds % 60;
 
-      }catch(err){ console.error('Landing page script error:',err); }
-    })();
-  </script>
+            // Add leading zero if seconds is less than 10
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            
+            // Add leading zero if minutes is less than 10
+            let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
 
+            minutesEl.innerHTML = displayMinutes;
+            secondsEl.innerHTML = seconds;
+
+            // Logic when timer hits zero
+            if (timeInSeconds <= 0) {
+                clearInterval(timer);
+                minutesEl.innerHTML = "00";
+                secondsEl.innerHTML = "00";
+                
+                // Optional: Turn timer red when finished
+                minutesEl.classList.add('timer-red');
+                secondsEl.classList.add('timer-red');
+            } else {
+                timeInSeconds--;
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
